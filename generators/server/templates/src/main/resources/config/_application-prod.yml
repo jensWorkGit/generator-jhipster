@@ -123,12 +123,6 @@ spring:
         password:
     thymeleaf:
         cache: true
-
-<%_ if (databaseType === 'sql') { _%>
-liquibase:
-    contexts: prod
-
-<%_ } _%>
 server:
 <%_ if (applicationType == 'microservice' || applicationType == 'gateway' || applicationType == 'uaa') { _%>
     port: <%= serverPort %>

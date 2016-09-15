@@ -88,8 +88,6 @@ cucumberTest.finalizedBy(testReport)<% } %>
 <% if(!skipClient) {%>
 apply from: 'gradle/yeoman.gradle'<% } %>
 apply from: 'gradle/sonar.gradle'
-<% if (databaseType === 'sql') { %>
-apply from: 'gradle/liquibase.gradle'<% } %>
 <% if (testFrameworks.indexOf('gatling') != -1) { %>
 apply from: 'gradle/gatling.gradle'<% } %>
 apply from: 'gradle/mapstruct.gradle'

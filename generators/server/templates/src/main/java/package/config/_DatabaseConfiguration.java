@@ -3,7 +3,7 @@ package <%=packageName%>.config;
 import <%=packageName%>.config.liquibase.AsyncSpringLiquibase;
 
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import liquibase.integration.spring.SpringLiquibase;<% } %><% if (databaseType == 'mongodb' && authenticationType == 'oauth2') { %>
+<% } %><% if (databaseType == 'mongodb' && authenticationType == 'oauth2') { %>
 import <%=packageName%>.config.oauth2.OAuth2AuthenticationReadConverter;<% } %><% if (databaseType == 'mongodb') { %>
 import <%=packageName%>.domain.util.JSR310DateConverters.*;
 import com.mongodb.Mongo;
@@ -14,8 +14,7 @@ import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;<% if (databaseType == 'mongodb') { %>
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoProperties;<% } %><% if (databaseType == 'sql') { %>
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;<% } %>
+import org.springframework.boot.autoconfigure.mongo.MongoProperties;<% } %>
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;<% if (databaseType == 'mongodb') { %>
@@ -83,25 +82,6 @@ public class DatabaseConfiguration <% if (databaseType == 'mongodb') { %>extends
         return Server.createTcpServer("-tcp","-tcpAllowOthers");
     }
 <%_ } _%>
-
-    @Bean
-    public SpringLiquibase liquibase(DataSource dataSource, LiquibaseProperties liquibaseProperties) {
-
-        // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase to start asynchronously
-        SpringLiquibase liquibase = new AsyncSpringLiquibase();
-        liquibase.setDataSource(dataSource);
-        liquibase.setChangeLog("classpath:config/liquibase/master.xml");
-        liquibase.setContexts(liquibaseProperties.getContexts());
-        liquibase.setDefaultSchema(liquibaseProperties.getDefaultSchema());
-        liquibase.setDropFirst(liquibaseProperties.isDropFirst());
-        if (env.acceptsProfiles(Constants.SPRING_PROFILE_NO_LIQUIBASE)) {
-            liquibase.setShouldRun(false);
-        } else {
-            liquibase.setShouldRun(liquibaseProperties.isEnabled());
-            log.debug("Configuring Liquibase");
-        }
-        return liquibase;
-    }
 
     @Bean
     public Hibernate4Module hibernate4Module() {

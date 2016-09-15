@@ -140,12 +140,6 @@ spring:
         cache-seconds: 1
     thymeleaf:
         cache: false
-
-<%_ if (databaseType === 'sql') { _%>
-liquibase:
-    contexts: dev
-
-<%_ } _%>
 server:
 <%_ if (applicationType == 'microservice' || applicationType == 'gateway' || applicationType == 'uaa') { _%>
     port: <%= serverPort %>
